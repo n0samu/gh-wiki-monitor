@@ -126,10 +126,15 @@ function main() {
   }
 
   const wikiEdits = fetchWikiEdits(repoInfo);
-  if (oldEdits !== null) {
+  var dataChanged = false;
+  if (oldEdits === null) {
+    Logger.log("First run - storing existing wiki edits");
+    dataChanged = true;
+  } else {
     const numNewEdits = getNumNewObjs(oldEdits, wikiEdits, 'hash');
     const newEdits = wikiEdits.slice(0, numNewEdits);
     for (wikiEdit of newEdits) {
+      dataChanged = true;
       if (emailAddress !== null) {
         sendEmailNotification(emailAddress, repoInfo, wikiEdit);
       }
@@ -137,8 +142,8 @@ function main() {
         sendDiscordNotification(webhookUrl, repoInfo, wikiEdit);
       }
     }
-  } else {
-    Logger.log("First run - storing existing wiki edits");
   }
-  scriptProperties.setProperty('WIKI_EDIT_DATA', JSON.stringify(wikiEdits));
+  if (dataChanged) {
+    scriptProperties.setProperty('WIKI_EDIT_DATA', JSON.stringify(wikiEdits));
+  }
 }
