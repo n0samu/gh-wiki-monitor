@@ -1,5 +1,5 @@
 function fetchHtml(url) {
-  return UrlFetchApp.fetch(url).getContentText()
+  return UrlFetchApp.fetch(url).getContentText();
 }
 
 function getPrevHashes(wikiEdits) {
@@ -73,7 +73,7 @@ function postToWebhook(url, payload) {
 }
 
 function sendDiscordNotification(webhookUrl, repoInfo, wikiEdit) {
-  const githubLogoUrl = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+  const githubLogoUrl = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
 
   const diffUrl = generateDiffUrl(repoInfo, wikiEdit);
   const userUrl = 'https://github.com/' + wikiEdit['username'];
@@ -123,7 +123,7 @@ function main() {
   const repoInfo = {
     'name': githubRepo,
     'wikiUrl': 'https://github.com/' + githubRepo + '/wiki/'
-  }
+  };
 
   const wikiEdits = fetchWikiEdits(repoInfo);
   var dataChanged = false;
